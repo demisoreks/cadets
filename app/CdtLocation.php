@@ -16,4 +16,12 @@ class CdtLocation extends Model
     public function region() {
         return $this->belongsTo('App\CdtRegion');
     }
+    
+    public function state() {
+        return $this->belongsTo('App\CdtState');
+    }
+    
+    public function courses() {
+        return $this->hasMany('App\CdtCourse');
+    }
 }

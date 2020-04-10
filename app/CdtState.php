@@ -13,7 +13,15 @@ class CdtState extends Model
     
     protected $guarded = [];
     
-    public function regions() {
-        return $this->hasMany('App\CdtRegion');
+    public function locations() {
+        return $this->hasMany('App\CdtLocation');
+    }
+    
+    public function cadets() {
+        return $this->hasMany('App\CdtCadet');
+    }
+    
+    public function instructorDetails() {
+        return $this->hasMany('App\CdtInstructorDetail');
     }
 }

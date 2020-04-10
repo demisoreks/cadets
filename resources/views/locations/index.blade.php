@@ -1,19 +1,9 @@
-@extends('app', ['page_title' => 'Locations', 'open_menu' => 'settings'])
+@extends('app', ['page_title' => 'Locations', 'open_menu' => 'cadets'])
 
 @section('content')
 <div class="row">
-    <div class="col-12">
-        <table class="table table-condensed table-hover table-primary">
-            <tr>
-                <td><strong>Region:</strong> {{ $region->name }}</td>
-            </tr>
-        </table>
-    </div>
-</div>
-<div class="row">
     <div class="col-12" style="margin-bottom: 20px;">
-        <a class="btn btn-primary" href="{{ route('regions.locations.create', [$region->slug()]) }}"><i class="fas fa-plus"></i> New Location</a>
-        <a class="btn btn-primary" href="{{ route('regions.index') }}"><i class="fas fa-arrow-left"></i> Back to Regions</a>
+        <a class="btn btn-primary" href="{{ route('locations.create') }}"><i class="fas fa-plus"></i> New Location</a>
     </div>
 </div>
 <div class="row">
@@ -33,7 +23,9 @@
                             <thead>
                                 <tr class="text-center">
                                     <th><strong>NAME</strong></th>
-                                    <th width="40%"><strong>CODE</strong></th>
+                                    <th width="15%"><strong>CODE</strong></th>
+                                    <th width="25%"><strong>REGION</strong></th>
+                                    <th width="25%"><strong>STATE</strong></th>
                                     <th width="10%" data-priority="1">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -43,9 +35,11 @@
                                 <tr>
                                     <td>{{ $location->name }}</td>
                                     <td>{{ $location->code }}</td>
+                                    <td>{{ $location->region->name }}</td>
+                                    <td>{{ $location->state->name }}</td>
                                     <td class="text-center">
-                                        <a title="Edit" href="{{ route('regions.locations.edit', [$region->slug(), $location->slug()]) }}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-                                        <a title="Trash" href="{{ route('regions.locations.disable', [$region->slug(), $location->slug()]) }}" onclick="return confirmDisable()"><i class="fas fa-trash"></i></a>
+                                        <a title="Edit" href="{{ route('locations.edit', [$location->slug()]) }}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
+                                        <a title="Trash" href="{{ route('locations.disable', [$location->slug()]) }}" onclick="return confirmDisable()"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                     @endif
@@ -69,7 +63,9 @@
                             <thead>
                                 <tr class="text-center">
                                     <th><strong>NAME</strong></th>
-                                    <th width="40%"><strong>CODE</strong></th>
+                                    <th width="15%"><strong>CODE</strong></th>
+                                    <th width="25%"><strong>REGION</strong></th>
+                                    <th width="25%"><strong>STATE</strong></th>
                                     <th width="10%" data-priority="1">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -79,8 +75,10 @@
                                 <tr>
                                     <td>{{ $location->name }}</td>
                                     <td>{{ $location->code }}</td>
+                                    <td>{{ $location->region->name }}</td>
+                                    <td>{{ $location->state->name }}</td>
                                     <td class="text-center">
-                                        <a title="Restore" href="{{ route('regions.locations.enable', [$region->slug(), $location->slug()]) }}"><i class="fas fa-undo"></i></a>
+                                        <a title="Restore" href="{{ route('locations.enable', [$location->slug()]) }}"><i class="fas fa-undo"></i></a>
                                     </td>
                                 </tr>
                                     @endif

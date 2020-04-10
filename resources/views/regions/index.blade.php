@@ -23,8 +23,6 @@
                             <thead>
                                 <tr class="text-center">
                                     <th><strong>NAME</strong></th>
-                                    <th width="25%"><strong>STATE</strong></th>
-                                    <th width="20%" data-priority="1">&nbsp;</th>
                                     <th width="20%" data-priority="1">&nbsp;</th>
                                     <th width="10%" data-priority="1">&nbsp;</th>
                                 </tr>
@@ -34,8 +32,6 @@
                                     @if ($region->active)
                                 <tr>
                                     <td>{{ $region->name }}</td>
-                                    <td>{{ $region->state->name }}</td>
-                                    <td><a class="btn btn-primary btn-block btn-sm" href="{{ route('regions.locations.index', [$region->slug()]) }}">Manage Locations</a></td>
                                     <td><a class="btn btn-primary btn-block btn-sm" href="{{ route('regions.instructors.index', [$region->slug()]) }}">Manage Instructors</a></td>
                                     <td class="text-center">
                                         <a title="Edit" href="{{ route('regions.edit', [$region->slug()]) }}"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
@@ -63,8 +59,6 @@
                             <thead>
                                 <tr class="text-center">
                                     <th><strong>NAME</strong></th>
-                                    <th width="25%"><strong>STATE</strong></th>
-                                    <th width="20%" data-priority="1">&nbsp;</th>
                                     <th width="20%" data-priority="1">&nbsp;</th>
                                     <th width="10%" data-priority="1">&nbsp;</th>
                                 </tr>
@@ -74,8 +68,6 @@
                                     @if (!$region->active)
                                 <tr>
                                     <td>{{ $region->name }}</td>
-                                    <td>{{ $region->state->name }}</td>
-                                    <td><a class="btn btn-primary btn-block btn-sm" href="{{ route('regions.locations.index', [$region->slug()]) }}">Manage Locations</a></td>
                                     <td><a class="btn btn-primary btn-block btn-sm" href="{{ route('regions.instructors.index', [$region->slug()]) }}">Manage Instructors</a></td>
                                     <td class="text-center">
                                         <a title="Restore" href="{{ route('regions.enable', [$region->slug()]) }}"><i class="fas fa-undo"></i></a>

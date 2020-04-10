@@ -18,6 +18,41 @@ $permissions = json_decode($res->getBody());
 @section('content')
 @include('commons.message')
 <div class="row">
+    @if (count(array_intersect($permissions, ['Instructor'])) != 0)
+    <div class="col-12">
+        <h4 class="page-header text-primary" style="border-bottom: 1px solid #999; padding-bottom: 20px; margin-bottom: 20px;">Training Management</h4>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('cadets.index') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-shield-alt"></i></h1>
+                    <h5 class="text-primary">Cadets</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('courses.index') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-users"></i></h1>
+                    <h5 class="text-primary">Courses</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('locations.index') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-map"></i></h1>
+                    <h5 class="text-primary">Locations</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    @endif
     @if (count(array_intersect($permissions, ['Admin'])) != 0)
     <div class="col-12">
         <h4 class="page-header text-primary" style="border-bottom: 1px solid #999; padding-bottom: 20px; margin-bottom: 20px;">Settings</h4>
@@ -58,6 +93,36 @@ $permissions = json_decode($res->getBody());
                 <div class="card-body text-center">
                     <h1 class="text-info"><i class="fas fa-thumbs-up"></i></h1>
                     <h5 class="text-primary">Quality Measures</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('bands.index') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-star"></i></h1>
+                    <h5 class="text-primary">Quality Bands</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('assessments.index') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-check"></i></h1>
+                    <h5 class="text-primary">Assessments</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('instructor_details.index') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-id-card"></i></h1>
+                    <h5 class="text-primary">Instructors</h5>
                 </div>
             </div>
         </a>

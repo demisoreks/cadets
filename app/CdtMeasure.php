@@ -12,4 +12,8 @@ class CdtMeasure extends Model
     protected $table = "cdt_measures";
     
     protected $guarded = [];
+    
+    public function qualities() {
+        return $this->hasMany('App\CdtQuality');
+    }
 }

@@ -24,4 +24,8 @@ class AccEmployee extends Model
     public function instructors() {
         return $this->hasMany('App\CdtInstructor');
     }
+    
+    public function instructorDetail() {
+        return $this->hasOne('App\CdtInstructorDetail');
+    }
 }

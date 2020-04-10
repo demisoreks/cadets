@@ -12,4 +12,8 @@ class CdtMetric extends Model
     protected $table = "cdt_metrics";
     
     protected $guarded = [];
+    
+    public function exams() {
+        return $this->hasMany('App\CdtExam');
+    }
 }

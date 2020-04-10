@@ -181,6 +181,14 @@ use GuzzleHttp\Client;
                     return false;
                 }
             }
+            
+            function confirmCreateCadet() {
+                if (confirm("Please confirm all data before you submit.\nAre you sure you want to submit this request?")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         </script>
 
         <!-- Styles -->
@@ -247,10 +255,30 @@ use GuzzleHttp\Client;
                                 <div class="card-body">
                                     <nav class="nav flex-column">
                                         <a class="nav-link" href="{{ route('welcome') }}">Home</a>
+                                        <a class="nav-link" href="{{ route('cadets.search') }}">Cadet Search</a>
                                     </nav>
                                 </div>
                             </div> 
                         </div>
+                        @if (count(array_intersect($permissions, ['Instructor'])) != 0)
+                        <div class="card">
+                            <div class="card-header bg-white" id="heading-menu3" style="padding: 0;">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-menu3" aria-expanded="true" aria-controls="collapse-menu3">
+                                        <strong>Training Mgt.</strong>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse-menu3" class="collapse @if (isset($open_menu) && $open_menu == 'cadets') show @endif" aria-labelledby="heading-menu3" data-parent="#accordion-menu">
+                                <div class="card-body">
+                                    <nav class="nav flex-column">
+                                        <a class="nav-link" href="{{ route('courses.index') }}">Courses</a>
+                                        <a class="nav-link" href="{{ route('locations.index') }}">Locations</a>
+                                    </nav>
+                                </div>
+                            </div> 
+                        </div>
+                        @endif
                         @if (count(array_intersect($permissions, ['Admin'])) != 0)
                         <div class="card">
                             <div class="card-header bg-white" id="heading-menu2" style="padding: 0;">
@@ -267,6 +295,9 @@ use GuzzleHttp\Client;
                                         <a class="nav-link" href="{{ route('regions.index') }}">Regions</a>
                                         <a class="nav-link" href="{{ route('metrics.index') }}">Exam Metrics</a>
                                         <a class="nav-link" href="{{ route('measures.index') }}">Quality Measures</a>
+                                        <a class="nav-link" href="{{ route('bands.index') }}">Quality Bands</a>
+                                        <a class="nav-link" href="{{ route('assessments.index') }}">Assessments</a>
+                                        <a class="nav-link" href="{{ route('instructor_details.index') }}">Instructors</a>
                                     </nav>
                                 </div>
                             </div> 
@@ -284,7 +315,7 @@ use GuzzleHttp\Client;
             </div>
             <div class="row">
                 <div class="col-12 justify-content-end text-right">
-                    <div style="border-top: 1px solid #999; margin-top: 20px; padding: 10px 0;">Powered by <a href="https://halogensecurity.com" target="_blank">Strategy Hub | Halogen Security Company</a></div>
+                    <div style="border-top: 1px solid #999; margin-top: 20px; padding: 10px 0;">Powered by <a href="https://halogensecurity.com" target="_blank">HalogenGroup</a></div>
                 </div>
             </div>
         </div>

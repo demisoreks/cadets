@@ -13,10 +13,6 @@ class CdtRegion extends Model
     
     protected $guarded = [];
     
-    public function state() {
-        return $this->belongsTo('App\CdtState');
-    }
-    
     public function locations() {
         return $this->hasMany('App\CdtLocation');
     }
