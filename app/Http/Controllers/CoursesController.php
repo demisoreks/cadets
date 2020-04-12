@@ -31,7 +31,7 @@ class CoursesController extends Controller
     }
     
     static function getNextCourseCode(CdtLocation $location, $start_date) {
-        $courses = CdtCourse::whereIn('location_id', CdtLocation::where('region_id', $location->region->id)->pluck('id')->toArray())->where('start_date', 'like', substr($start_date, 0, 4).'-%')->get();
+        $courses = CdtCourse::whereIn('location_id', CdtLocation::where('region_id', $location->region->id)->pluck('id')->toArray())->whereRaw('SUBSTRING(start_date, 0, 4) = '.substr($start_date, 0, 4));
         dd($courses->count());
         if ($courses->count() == 0) {
             $new_code = '001';
