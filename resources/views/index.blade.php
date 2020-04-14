@@ -18,20 +18,11 @@ $permissions = json_decode($res->getBody());
 @section('content')
 @include('commons.message')
 <div class="row">
-    @if (count(array_intersect($permissions, ['Instructor'])) != 0)
+    @if (count(array_intersect($permissions, ['Instructor', 'SeniorInstructor', 'RegionalManager', 'Admin'])) != 0)
     <div class="col-12">
         <h4 class="page-header text-primary" style="border-bottom: 1px solid #999; padding-bottom: 20px; margin-bottom: 20px;">Training Management</h4>
     </div>
-    <div class="col-md-3" style="margin-bottom: 20px;">
-        <a href="{{ route('cadets.index') }}">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h1 class="text-info"><i class="fas fa-shield-alt"></i></h1>
-                    <h5 class="text-primary">Cadets</h5>
-                </div>
-            </div>
-        </a>
-    </div>
+    @if (count(array_intersect($permissions, ['Instructor', 'SeniorInstructor'])) != 0)
     <div class="col-md-3" style="margin-bottom: 20px;">
         <a href="{{ route('courses.index') }}">
             <div class="card">
@@ -52,6 +43,31 @@ $permissions = json_decode($res->getBody());
             </div>
         </a>
     </div>
+    @if (count(array_intersect($permissions, ['SeniorInstructor'])) != 0)
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('cadets.waiver') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-hand-point-right"></i></h1>
+                    <h5 class="text-primary">Entry Waiver</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    @endif
+    @endif
+    @if (count(array_intersect($permissions, ['RegionalManager'])) != 0)
+    <div class="col-md-3" style="margin-bottom: 20px;">
+        <a href="{{ route('courses.approvals') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h1 class="text-info"><i class="fas fa-money-check"></i></h1>
+                    <h5 class="text-primary">Approvals</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    @endif
     @endif
     @if (count(array_intersect($permissions, ['Admin'])) != 0)
     <div class="col-12">

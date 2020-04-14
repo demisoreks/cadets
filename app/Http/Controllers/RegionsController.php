@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Redirect;
 use App\CdtRegion;
+use App\CdtLocation;
 
 class RegionsController extends Controller
 {
@@ -85,5 +86,9 @@ class RegionsController extends Controller
         ActivitiesController::log('Region was enabled - '.$region->name.'.');
         return Redirect::route('regions.index')
                 ->with('success', UtilsController::response('Successful!', 'Region has been enabled.'));
+    }
+    
+    public function getLocations(int $region_id) {
+        return CdtLocation::where('region_id', $region_id)->where('active', true)->orderBy('name')->get()->toJson();
     }
 }

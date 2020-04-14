@@ -51,19 +51,19 @@
 <div class="form-group row">
     {!! Form::label('qualification', 'Qualification *', ['class' => 'col-md-4 col-form-label']) !!}
     <div class="col-md-8">
-        {!! Form::select('qualification', ['Not Applicable' => 'Not Applicable', 'SSCE' => 'SSCE', 'OND' => 'OND', 'HND' => 'HND', 'Bachelor\'s Degree' => 'Bachelor\'s Degree'], $value = null, ['class' => 'form-control', 'placeholder' => '- Select Option -', 'required' => true]) !!}
+        {!! Form::select('qualification', ['Not Applicable' => 'Not Applicable', 'SSCE' => 'SSCE', 'OND' => 'OND', 'HND' => 'HND', 'Bachelor\'s Degree' => 'Bachelor\'s Degree', 'Master\'s Degree' => 'Master\'s Degree'], $value = null, ['class' => 'form-control', 'placeholder' => '- Select Option -', 'required' => true]) !!}
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('phone1', 'Primary Phone *', ['class' => 'col-md-4 col-form-label']) !!}
     <div class="col-md-8">
-        {!! Form::number('phone1', $value = null, ['class' => 'form-control', 'placeholder' => 'Primary Phone', 'required' => true, 'maxlength' => 20]) !!}
+        {!! Form::number('phone1', $value = null, ['class' => 'form-control', 'placeholder' => 'Primary Phone', 'required' => true, 'maxlength' => 11]) !!}
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('phone2', 'Alternate Phone', ['class' => 'col-md-4 col-form-label']) !!}
     <div class="col-md-8">
-        {!! Form::number('phone2', $value = null, ['class' => 'form-control', 'placeholder' => 'Alternate Phone', 'maxlength' => 20]) !!}
+        {!! Form::number('phone2', $value = null, ['class' => 'form-control', 'placeholder' => 'Alternate Phone', 'maxlength' => 11]) !!}
     </div>
 </div>
 <div class="form-group row">

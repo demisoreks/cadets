@@ -9,6 +9,9 @@ use App\CdtCourse;
 use App\CdtRegion;
 use App\CdtLocation;
 use App\CdtInstructor;
+use App\CdtCadet;
+
+use Carbon\Carbon;
 
 class CoursesController extends Controller
 {
@@ -111,5 +114,27 @@ class CoursesController extends Controller
         ActivitiesController::log('Course was enabled starting '.$course->start_date.' under '.$course->location->name.'.');
         return Redirect::route('courses.index')
                 ->with('success', UtilsController::response('Successful!', 'Region has been enabled.'));
+    }
+    
+    public function approvals() {
+        $courses = CdtCourse::where('approved_by', 0)->get();
+        return view('courses.approvals', compact('courses'));
+    }
+    
+    public function cadets(CdtCourse $course) {
+        $cadets = CdtCadet::where('course_id', $course->id)->get();
+        
+        $status_chart = CadetsController::getStatusChart($course);
+        $gender_chart = CadetsController::getGenderChart($course);
+        
+        return view('courses.cadets', compact('cadets', 'course', 'status_chart', 'gender_chart'));
+    }
+    
+    public function approve(CdtCourse $course) {
+        $input = ['approved_by' => UtilsController::getEmployee()->id, 'approved_at' => Carbon::now()];
+        $course->update($input);
+        ActivitiesController::log('Course was approved starting '.$course->start_date.' under '.$course->location->name.'.');
+        return Redirect::route('courses.approvals')
+                ->with('success', UtilsController::response('Successful!', 'Course has been approved.'));
     }
 }

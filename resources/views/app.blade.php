@@ -189,6 +189,14 @@ use GuzzleHttp\Client;
                     return false;
                 }
             }
+            
+            function confirmApprove() {
+                if (confirm("Are you sure you want to approve this item?")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         </script>
 
         <!-- Styles -->
@@ -260,7 +268,7 @@ use GuzzleHttp\Client;
                                 </div>
                             </div> 
                         </div>
-                        @if (count(array_intersect($permissions, ['Instructor'])) != 0)
+                        @if (count(array_intersect($permissions, ['Instructor', 'SeniorInstructor', 'RegionalManager', 'Admin'])) != 0)
                         <div class="card">
                             <div class="card-header bg-white" id="heading-menu3" style="padding: 0;">
                                 <h5 class="mb-0">
@@ -272,8 +280,16 @@ use GuzzleHttp\Client;
                             <div id="collapse-menu3" class="collapse @if (isset($open_menu) && $open_menu == 'cadets') show @endif" aria-labelledby="heading-menu3" data-parent="#accordion-menu">
                                 <div class="card-body">
                                     <nav class="nav flex-column">
+                                        @if (count(array_intersect($permissions, ['Instructor', 'SeniorInstructor'])) != 0)
                                         <a class="nav-link" href="{{ route('courses.index') }}">Courses</a>
                                         <a class="nav-link" href="{{ route('locations.index') }}">Locations</a>
+                                        @if (count(array_intersect($permissions, ['SeniorInstructor'])) != 0)
+                                        <a class="nav-link" href="{{ route('cadets.waiver') }}">Entry Waiver</a>
+                                        @endif
+                                        @if (count(array_intersect($permissions, ['RegionalManager'])) != 0)
+                                        <a class="nav-link" href="{{ route('courses.approvals') }}">Approvals</a>
+                                        @endif
+                                        @endif
                                     </nav>
                                 </div>
                             </div> 

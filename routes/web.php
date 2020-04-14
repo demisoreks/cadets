@@ -24,6 +24,9 @@ Route::put('config/update', [
     'as' => 'config.update', 'uses' => 'ConfigController@update'
 ])->middleware(['auth.user', 'auth.access:'.$link_id.',Admin']);
 
+Route::get('regions/{region_id}/getLocations', [
+    'as' => 'regions.getLocations', 'uses' => 'RegionsController@getLocations'
+]);
 Route::get('regions/{region}/disable', [
     'as' => 'regions.disable', 'uses' => 'RegionsController@disable'
 ])->middleware(['auth.user', 'auth.access:'.$link_id.',Admin']);
@@ -111,6 +114,15 @@ Route::bind('instructor_details', function($value, $route) {
     return App\CdtInstructorDetail::findBySlug($value)->first();
 });
 
+Route::get('courses/{course}/approve', [
+    'as' => 'courses.approve', 'uses' => 'CoursesController@approve'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',RegionalManager']);
+Route::get('courses/{course}/cadets', [
+    'as' => 'courses.cadets', 'uses' => 'CoursesController@cadets'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',RegionalManager']);
+Route::get('courses/approvals', [
+    'as' => 'courses.approvals', 'uses' => 'CoursesController@approvals'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',RegionalManager']);
 Route::get('courses/{course}/disable', [
     'as' => 'courses.disable', 'uses' => 'CoursesController@disable'
 ])->middleware(['auth.user', 'auth.access:'.$link_id.',Instructor']);
@@ -160,6 +172,21 @@ Route::post('cadets/{cadet}/complete', [
 ])->middleware(['auth.user', 'auth.access:'.$link_id.',Instructor']);
 Route::post('cadets/{cadet}/update', [
     'as' => 'cadets.update', 'uses' => 'CadetsController@update'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',Instructor']);
+Route::get('cadets/waiver', [
+    'as' => 'cadets.waiver', 'uses' => 'CadetsController@waiver'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',SeniorInstructor']);
+Route::post('cadets/waiver_fetch', [
+    'as' => 'cadets.waiver_fetch', 'uses' => 'CadetsController@waiver_fetch'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',SeniorInstructor']);
+Route::post('cadets/{cadet}/waive', [
+    'as' => 'cadets.waive', 'uses' => 'CadetsController@waive'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',SeniorInstructor']);
+Route::post('cadets/{cadet}/change', [
+    'as' => 'cadets.change', 'uses' => 'CadetsController@change'
+])->middleware(['auth.user', 'auth.access:'.$link_id.',Instructor']);
+Route::post('cadets/{cadet}/reject', [
+    'as' => 'cadets.reject', 'uses' => 'CadetsController@reject'
 ])->middleware(['auth.user', 'auth.access:'.$link_id.',Instructor']);
 Route::bind('cadets', function($value, $route) {
     return App\CdtCadet::findBySlug($value)->first();

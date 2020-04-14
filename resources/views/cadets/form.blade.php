@@ -19,6 +19,7 @@
     {!! Form::label('date_of_birth', 'Date of Birth *', ['class' => 'col-md-2 col-form-label']) !!}
     <div class="col-md-4">
         {!! Form::date('date_of_birth', $value = null, ['class' => 'form-control', 'placeholder' => 'Date of Birth', 'required' => true]) !!}
+        {{ Carbon\Carbon::parse($cadet->date_of_birth)->age }} years old
     </div>
 </div>
 <div class="form-group row">
@@ -51,19 +52,19 @@
 <div class="form-group row">
     {!! Form::label('qualification', 'Qualification *', ['class' => 'col-md-2 col-form-label']) !!}
     <div class="col-md-4">
-        {!! Form::select('qualification', ['Not Applicable' => 'Not Applicable', 'SSCE' => 'SSCE', 'OND' => 'OND', 'HND' => 'HND', 'Bachelor\'s Degree' => 'Bachelor\'s Degree'], $value = null, ['class' => 'form-control', 'placeholder' => '- Select Option -', 'required' => true]) !!}
+        {!! Form::select('qualification', ['Not Applicable' => 'Not Applicable', 'SSCE' => 'SSCE', 'OND' => 'OND', 'HND' => 'HND', 'Bachelor\'s Degree' => 'Bachelor\'s Degree', 'Master\'s Degree' => 'Master\'s Degree'], $value = null, ['class' => 'form-control', 'placeholder' => '- Select Option -', 'required' => true]) !!}
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('phone1', 'Primary Phone *', ['class' => 'col-md-2 col-form-label']) !!}
     <div class="col-md-4">
-        {!! Form::number('phone1', $value = null, ['class' => 'form-control', 'placeholder' => 'Primary Phone', 'required' => true, 'maxlength' => 20]) !!}
+        {!! Form::number('phone1', $value = null, ['class' => 'form-control', 'placeholder' => 'Primary Phone', 'required' => true, 'maxlength' => 11]) !!}
     </div>
 </div>
 <div class="form-group row">
     {!! Form::label('phone2', 'Alternate Phone', ['class' => 'col-md-2 col-form-label']) !!}
     <div class="col-md-4">
-        {!! Form::number('phone2', $value = null, ['class' => 'form-control', 'placeholder' => 'Alternate Phone', 'maxlength' => 20]) !!}
+        {!! Form::number('phone2', $value = null, ['class' => 'form-control', 'placeholder' => 'Alternate Phone', 'maxlength' => 11]) !!}
     </div>
 </div>
 <div class="form-group row">
@@ -85,7 +86,7 @@
     </div>
 </div>
 <div class="form-group row">
-    {!! Form::label('assessments', 'Assessments', ['class' => 'col-md-2 col-form-label']) !!}
+    {!! Form::label('assessments', 'Screening', ['class' => 'col-md-2 col-form-label']) !!}
     <div class="col-md-4">
         @foreach (App\CdtAssessment::where('when', 'B')->where('active', true)->get() as $assessment)
         <div class="form-check">
@@ -115,6 +116,4 @@
 
 <script type="text/javascript">
     $('.select2').select2();
-    
-    $('#entrance_score').tooltip({'trigger':'focus', 'title': 'Pass mark is ...'});
 </script>

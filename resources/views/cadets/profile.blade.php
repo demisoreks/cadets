@@ -16,7 +16,7 @@
                 <td>
                     <div class="row">
                         <div class="col"><small>Middle Name</small><br /><strong>{{ $cadet->middle_name }}</strong></div>
-                        <div class="col"><small>Date of Birth</small><br /><strong>{{ Carbon\Carbon::parse($cadet->date_of_birth)->format('F j, Y') }}</strong></div>
+                        <div class="col"><small>Date of Birth</small><br /><strong>{{ Carbon\Carbon::parse($cadet->date_of_birth)->format('F j, Y') }} ({{ Carbon\Carbon::parse($cadet->date_of_birth)->age }} years old)</strong></div>
                     </div>
                 </td>
             </tr>
@@ -67,7 +67,7 @@
                 <td><strong>{{ $cadet->entrance_score }}</strong></td>
             </tr>
             <tr>
-                <td>Assessments</td>
+                <td>Screening</td>
                 <td>
                     <strong>
                         @foreach (App\CdtCheck::where('cadet_id', $cadet->id)->get() as $check)
@@ -86,6 +86,16 @@
                 <td>Post-Training Comment</td>
                 <td><strong>{!! nl2br($cadet->comment_after) !!}</strong></td>
             </tr>
+            @if (isset($cadet->waiver_by) && $cadet->waiver_by != 0)
+            <tr>
+                <td>Waived By</td>
+                <td><strong>@if ($cadet->waiver_by) {{ App\AccEmployee::find($cadet->waiver_by)->username }} @endif</strong></td>
+            </tr>
+            <tr>
+                <td>Waiver Comment</td>
+                <td><strong>{!! nl2br($cadet->waiver_comment) !!}</strong></td>
+            </tr>
+            @endif
             <tr>
                 <td>Status</td>
                 <td class="@if ($cadet->status == 'Rejected') text-danger @else text-info @endif"><strong>{{ $cadet->status }}</strong></td>

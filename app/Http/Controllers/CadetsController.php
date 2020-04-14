@@ -178,13 +178,7 @@ class CadetsController extends Controller
         }
     }
     
-    public function applicants(CdtCourse $course) {
-        if (CdtInstructor::where('region_id', $course->location->region->id)->where('employee_id', UtilsController::getEmployee()->id)->count() == 0) {
-            return Redirect::back()
-                    ->with('error', UtilsController::response('Oops!', 'You have not been mapped for this region.'))
-                    ->withInput();
-        }
-        
+    public static function getStatusChart(CdtCourse $course) {
         $status_chart = new DistributionChart();
         $status_labels = ['Applicant', 'Cadet', 'Trained', 'Rejected'];
         $status_counts = [
@@ -195,12 +189,27 @@ class CadetsController extends Controller
         ];
         $status_colors = ['#ccc', '#999', '#666', '#f00'];
         $status_chart->labels($status_labels)->dataset('Status Distribution', 'doughnut', $status_counts)->backgroundColor($status_colors);
-        
+        return $status_chart;
+    }
+
+    public static function getGenderChart(CdtCourse $course) {
         $gender_chart = new DistributionChart();
         $gender_labels = ['M', 'F'];
         $gender_counts = [CdtCadet::where('course_id', $course->id)->where('gender', 'M')->count(), CdtCadet::where('course_id', $course->id)->where('gender', 'F')->count()];
         $gender_colors = ['#555', '#ddd'];
         $gender_chart->labels($gender_labels)->dataset('Gender Distribution', 'pie', $gender_counts)->backgroundColor($gender_colors);
+        return $gender_chart;
+    }
+
+    public function applicants(CdtCourse $course) {
+        if (CdtInstructor::where('region_id', $course->location->region->id)->where('employee_id', UtilsController::getEmployee()->id)->count() == 0) {
+            return Redirect::back()
+                    ->with('error', UtilsController::response('Oops!', 'You have not been mapped for this region.'))
+                    ->withInput();
+        }
+        
+        $status_chart = $this->getStatusChart($course);
+        $gender_chart = $this->getGenderChart($course);
         
         $cadets = CdtCadet::where('course_id', $course->id)->get();
         return view('cadets.applicants', compact('cadets', 'course', 'status_chart', 'gender_chart'));
@@ -237,6 +246,7 @@ class CadetsController extends Controller
         $input['treated_by'] = UtilsController::getEmployee()->id;
         $input['entrance_pass_mark'] = CdtConfig::whereId(1)->first()->entrance_pass_mark;
         $cadet->update($input);
+        ActivitiesController::log('Cadet application was treated - '.$cadet->first_name.' '.$cadet->surname.'.');
         return Redirect::route('courses.applicants', [$cadet->course->slug()])
                 ->with('success', UtilsController::response('Completed!', 'Applicant treated.'));
     }
@@ -262,6 +272,7 @@ class CadetsController extends Controller
         }
         $input['status'] = "Trained";
         $cadet->update($input);
+        ActivitiesController::log('Cadet was marked as trained - '.$cadet->first_name.' '.$cadet->surname.'.');
         return Redirect::route('cadets.manage', [$cadet->slug()])
                 ->with('success', UtilsController::response('Completed!', 'Cadet has been marked as trained.'));
     }
@@ -274,7 +285,67 @@ class CadetsController extends Controller
         }
         $input['surname'] = strtoupper($input['surname']);
         $cadet->update($input);
+        ActivitiesController::log('Cadet biodata was updated - '.$cadet->first_name.' '.$cadet->surname.'.');
         return Redirect::route('cadets.manage', [$cadet->slug()])
                 ->with('success', UtilsController::response('Completed!', 'Cadet biodata has been updated.'));
+    }
+    
+    public function waiver() {
+        return view('cadets.waiver');
+    }
+    
+    public function waiver_fetch(Request $request) {
+        $input = $request->input();
+        $cadets = CdtCadet::where('index', $input['index']);
+        if ($cadets->count() == 0) {
+            return Redirect::back()
+                    ->with('error', UtilsController::response('Oops!', 'Index number does not exist.'));
+        } else {
+            $cadet = $cadets->first();
+            if ($cadet->status != 'Rejected') {
+                return Redirect::back()
+                        ->with('error', UtilsController::response('Oops!', 'Only rejected applicants can be granted waivers. The applicant\'s status is <strong>'.$cadet->status.'</strong>.'));
+            } else {
+                return view('cadets.view_waiver', compact('cadet'));
+            }
+        }
+    }
+    
+    public function waive(CdtCadet $cadet, Request $request) {
+        $input = $request->input();
+        $input['waiver_by'] = UtilsController::getEmployee()->id;
+        $input['status'] = "Cadet";
+        $cadet->update($input);
+        ActivitiesController::log('Cadet waiver - '.$cadet->first_name.' '.$cadet->surname.'.');
+        return Redirect::route('cadets.view', [$cadet->slug()])
+                ->with('success', UtilsController::response('Completed!', 'Applicant has been admitted.'));
+    }
+    
+    public function change(CdtCadet $cadet, Request $request) {
+        $input = $request->input();
+        $input['course_id'] = $input['c_course_id'];
+        unset($input['c_course_id']);
+        unset($input['c_region_id']);
+        unset($input['c_location_id']);
+        if ($cadet->course->id == $input['course_id']) {
+            return Redirect::back()
+                        ->with('error', UtilsController::response('Oops!', 'The same course was selected.'));
+        } else {
+            $course = CdtCourse::whereId($input['course_id'])->first();
+            $input['index'] = implode("/", [$course->location->code.substr($course->start_date, 0, 2), $course->code, $this->getNextCadetCode($course)]);
+            $cadet->update($input);
+            ActivitiesController::log('Cadet was moved to a different course - '.$cadet->first_name.' '.$cadet->surname.'.');
+            return Redirect::route('cadets.view', [$cadet->slug()])
+                    ->with('success', UtilsController::response('Completed!', 'Applicant has been admitted.'));
+        }
+    }
+    
+    public function reject(CdtCadet $cadet, Request $request) {
+        $input = $request->input();
+        $input['status'] = "Rejected";
+        $cadet->update($input);
+        ActivitiesController::log('Cadet was rejected - '.$cadet->first_name.' '.$cadet->surname.'.');
+        return Redirect::route('cadets.manage', [$cadet->slug()])
+                ->with('success', UtilsController::response('Completed!', 'Cadet has been rejected.'));
     }
 }

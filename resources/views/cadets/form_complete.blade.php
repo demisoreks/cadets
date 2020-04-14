@@ -1,5 +1,5 @@
 <div class="form-group row">
-    {!! Form::label('assessments', 'Assessments', ['class' => 'col-md-4 col-form-label']) !!}
+    {!! Form::label('assessments', 'Screening', ['class' => 'col-md-4 col-form-label']) !!}
     <div class="col-md-8">
         @foreach (App\CdtAssessment::where('when', 'A')->where('active', true)->get() as $assessment)
         <div class="form-check">
