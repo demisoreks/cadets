@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/index.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/cadets/profile.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/cadets/form_edit.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/app.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/cadets/treat.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/cadets/form.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/resources/views/cadets/form_register.blade.php</file>
-            <file>file:/C:/Apache24/htdocs/cadets/routes/web.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
